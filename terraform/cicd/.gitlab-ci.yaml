@@ -1,0 +1,25 @@
+stages:
+  - validate
+  - scan
+  - deploy
+
+validate:
+  stage: validate
+  script:
+    - terraform init
+    - terraform validate
+
+scan:
+  stage: scan
+  script:
+    - terraform init
+    - terraform validate
+    - tflint --error-with-issues
+    - tfsec .
+
+deploy:
+  stage: deploy
+  script:
+    - terraform init
+    - terraform apply -auto-approve
+
